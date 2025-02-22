@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('routines', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->default(0)->constrained('users')->nullOnDelete();
+            $table->foreignId('user_id')->constrained('users')->onDelete(null)->default(0);
             $table->string('name');
             $table->timestamps();
         });
