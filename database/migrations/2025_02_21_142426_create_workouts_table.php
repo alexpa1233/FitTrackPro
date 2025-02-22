@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('workouts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('routine_id')->constrained('routines')->onDelete('cascade');
-            $table->integer('day_number');
+            $table->string('name');
             $table->timestamps();
         });
     }
