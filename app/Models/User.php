@@ -50,7 +50,7 @@ class User extends Authenticatable
         return $this->hasMany(ExerciseStatistic::class);
     }
 
-    public function exercise(){
+    public function exercises(){
         return $this->hasMany(Exercise::class);
     }
 }

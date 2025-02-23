@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Routine extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'name'
+    ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function workouts(){
+        return $this->hasMany(Workout::class);
+    }
 }
