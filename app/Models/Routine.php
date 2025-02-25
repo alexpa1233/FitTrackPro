@@ -11,7 +11,8 @@ class Routine extends Model
 
     protected $fillable = [
         'user_id',
-        'name'
+        'name',
+        'description'
     ];
 
     public function user(){

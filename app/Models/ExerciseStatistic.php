@@ -12,7 +12,7 @@ class ExerciseStatistic extends Model
 
     protected $fillable = [
         'user_id',
-        'exercise_id',
+        'workout_exercise_id',
         'sets',
         'reps',
         'weight',
