@@ -3,9 +3,13 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\RoutineController;
+use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\WorkoutExerciseController;
 use App\Http\Controllers\ExerciseStatisticController;
 
 /*
@@ -40,6 +44,18 @@ Route::prefix('v1')->group(function(){
         Route::get('/exercise-statistics/workout/{workoutExerciseId}', [ExerciseStatisticController::class, 'getByWorkoutExercise']);
         Route::get('/exercise-statistics/exercise/{exerciseId}', [ExerciseStatisticController::class, 'getByUserAndExercise']);
         Route::apiResource('/exercise-statistics', ExerciseStatisticController::class)->except(['index']);
+
+        
+        Route::apiResource('/routines', RoutineController::class);
+
+        
+        Route::apiResource('/types', TypeController::class);
+
+        
+        Route::apiResource('/workouts', WorkoutController::class);
+
+        
+        Route::apiResource('/workout-exercises', WorkoutExerciseController::class);
     });
 });
 
