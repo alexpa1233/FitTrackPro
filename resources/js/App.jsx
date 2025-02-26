@@ -1,12 +1,39 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import Home from './pagepublic/Home';
+import ProtectedRoutes from './pageauth/ProtectedRoutes';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import LayoutBackoffice from './components/layouts/backoffice/LayoutBackoffice';
+import LayoutService from './components/layouts/service/LayoutService';
+import LayoutPublic from './components/layouts/LayoutPublic';
+import Login from './pageauth/Login';
+import Register from './pageauth/Register';
+
+import Dashboard from './pagebackoffice/Dashboard';
+
+import Service from './pageservice/Service';
 const App = () => {
     return(
-        <div>
-            APP
-            <button class='btn btn-primary'> prueba</button>
-        </div>
+       <Router>
+            <Routes>
+                <Route path="/" element={<LayoutPublic/>}>
+                    <Route index element={<Home/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Register/>}/>
+                </Route>
+                
+                <Route element={<ProtectedRoutes/>}>
+                    <Route path="/backoffice" element={<LayoutBackoffice/>}>
+                        <Route index element={<Dashboard/>}/>   
+                    </Route>
+                    <Route path="/service" element={<LayoutService/>}>
+                        <Route index element={<Home/>}/>
+                        <Route index element={<Service/>}/>
+                    </Route>
+                </Route>
+            </Routes>
+       </Router>
     )
 }
 

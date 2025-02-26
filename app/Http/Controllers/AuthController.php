@@ -24,7 +24,7 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        $user->assignRole('admin');
+        $user->assignRole('client');
         $token = $user->createToken('auth_token')->plainTextToken;
        return response(
             [
@@ -47,11 +47,13 @@ class AuthController extends Controller
         ]);
 
         
+
+        
         if(auth()->attempt(['email' => $request->email, 'password' => $request->password])){
 
             $user = auth()->user();
 
-            $user->hasRole('admin');
+            $user->hasRole('client');
             $token = $user->createToken('auth_token')->plainTextToken;
         }else{
             return response(
