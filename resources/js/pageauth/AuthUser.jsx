@@ -1,27 +1,28 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
+
+
+const getToken = () => {
+    const tokenString = sessionStorage.getItem('token');
+    return tokenString ? JSON.parse(tokenString) : null;
+};
+
+const getUser=()=>{     
+    const userString = sessionStorage.getItem('user');
+    return userString ? JSON.parse(userString) : null;
+}
+
+
+const getRole=()=>{
+    const roleString = sessionStorage.getItem('role');
+    return roleString ? JSON.parse(roleString) : null;
+}
+
 const AuthUser = () => {
     const navigate = useNavigate();
 
-    const getToken=()=>{
-        const tokenString = sessionStorage.getItem('token');
-        const token = JSON.parse(tokenString);
-        return token;
-    }
-
-    const getUser=()=>{     
-        const userString = sessionStorage.getItem('user');
-        const user = JSON.parse(userString);
-        return user;
-    }
-
-
-    const getRole=()=>{
-        const roleString = sessionStorage.getItem('role');
-        const role = JSON.parse(roleString);
-        return role;
-    }
+    
 
     const [token, setToken] = useState(getToken());
     const [user, setUser] = useState(getUser());
@@ -37,7 +38,7 @@ const AuthUser = () => {
         setToken(token);
         setRole(rol);
 
-        //rol: admin y rol: client
+        
 
         if(getRole() === 'admin'){
             navigate('/backoffice');
@@ -61,4 +62,5 @@ const AuthUser = () => {
   }
 }
 
+export{getToken,getUser,getRole};
 export default AuthUser

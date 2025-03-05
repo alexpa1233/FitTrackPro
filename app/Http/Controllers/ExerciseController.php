@@ -24,6 +24,19 @@ class ExerciseController extends Controller
         );
     }
 
+    public function countExercises()
+    {
+        $count = Exercise::where('user_id', 0)->count();
+
+        return response(
+            [
+                'status' => 'success',
+                'data' => $count,
+                'code' => 200
+            ]
+        );
+    }
+
 
     public function getUserExercises(Request $request)
     {
@@ -45,22 +58,26 @@ class ExerciseController extends Controller
             ->where('type_id', $typeId)
             ->get();
 
-        return response([
-            'status' => 'success',
-            'data' => $exercises,
-            'code' => 200
-        ]);
+        return response(
+            [
+                'status' => 'success',
+                'data' => $exercises,
+                'code' => 200
+            ]   
+        );
     }
 
     public function countUserExercises(Request $request)
     {
         $count = Exercise::where('user_id', $request->user()->id)->count();
 
-        return response([
-            'status' => 'success',
-            'data' => $count,
-            'code' => 200
-        ]);
+        return response(   
+            [
+                'status' => 'success',
+                'data' => $count,
+                'code' => 200
+            ]
+        );
     }
 
     /**
@@ -69,19 +86,23 @@ class ExerciseController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'user_id' => 'required|integer|exists:users,id',
-            'type_id' => 'required|integer|exists:types,id',
-        ]);
+        $request->validate(
+            [
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'user_id' => 'required|integer|exists:users,id',
+                'type_id' => 'required|integer|exists:types,id',
+            ]
+        );
 
-        $exercise = Exercise::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'user_id' => $request->user_id,
-            'type_id' => $request->type_id,
-        ]);
+        $exercise = Exercise::create(
+            [
+                'name' => $request->name,
+                'description' => $request->description,
+                'user_id' => $request->user_id,
+                'type_id' => $request->type_id,
+            ]
+        );
 
         return response(
             [
@@ -98,11 +119,13 @@ class ExerciseController extends Controller
     public function show(Exercise $exercise)
     {
         
-        return response([
-            'status' => 'success',
-            'data' => $exercise,
-            'code' => 200
-        ]);
+        return response(
+            [
+                'status' => 'success',
+                'data' => $exercise,
+                'code' => 200
+            ]
+        );
     }
 
     /**
@@ -110,11 +133,13 @@ class ExerciseController extends Controller
      */
     public function update(Request $request, Exercise $exercise)
     {
-        $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'description' => 'nullable|string',
-            'type_id' => 'sometimes|integer|exists:types,id',
-        ]);
+        $request->validate(
+            [
+                'name' => 'sometimes|string|max:255',
+                'description' => 'nullable|string',
+                'type_id' => 'sometimes|integer|exists:types,id',
+            ]
+        );
 
         if ($request->has('name')) {
             $exercise->name = $request->name;
@@ -128,11 +153,13 @@ class ExerciseController extends Controller
 
         $exercise->save();
 
-        return response([
-            'status' => 'success',
-            'data' => $exercise,
-            'code' => 200
-        ]);
+        return response(
+            [
+                'status' => 'success',
+                'data' => $exercise,
+                'code' => 200
+            ]
+        );
         
     }
 
@@ -143,10 +170,12 @@ class ExerciseController extends Controller
     {
         $exercise->delete();
 
-        return response([
-            'status' => 'success',
-            'message' => 'Exercise deleted successfully',
-            'code' => 204
-        ]);
+        return response(
+            [
+                'status' => 'success',
+                'message' => 'Exercise deleted successfully',
+                'code' => 204
+            ]
+        );
     }
 }

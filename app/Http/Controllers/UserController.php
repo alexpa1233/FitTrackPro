@@ -7,6 +7,39 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    public function getUserWithClientRole()
+    {
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', 'client');
+        })->get();
+        
+        return response(
+            [
+                'status' => 'success',
+                'data' => $users,
+                'code' => 200
+            ]
+        );
+    }
+
+    public function countClientUsers()
+{
+    $count = User::whereHas('roles', function ($query) {
+        $query->where('name', 'client');
+    })->count();
+
+    return response(
+        [
+            'status' => 'success',
+            'data' => $count,
+            'code' => 200
+        ]
+    );
+}
+
+
+
     public function index()
     {
         $users = User::all();
@@ -16,8 +49,12 @@ class UserController extends Controller
                 'status' => 'success',
                 'data' => $users,
                 'code' => 200
-                ]
+            ]
         );
+    }
+
+    public function store(Request $request){
+
     }
 
    

@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoutineController;
 use App\Http\Controllers\WorkoutController;
 use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\LoginLogController;
 use App\Http\Controllers\WorkoutExerciseController;
 use App\Http\Controllers\ExerciseStatisticController;
 
@@ -29,16 +30,22 @@ Route::prefix('v1')->group(function(){
     Route::post('/auth/register', [AuthController::class, 'register']);
     Route::post('/auth/login', [AuthController::class, 'login']);
 
-    Route::group(['middleware' => 'auth:sanctum'], function(){
+    Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/auth/logout', [AuthController::class, 'logout']);
 
+
+        Route::get('/user/client', [UserController::class, 'getUserWithClientRole']);
+        Route::get('/user/client/count', [UserController::class, 'countClientUsers']);
         Route::apiResource('/user', UserController::class);
+       
 
        
         Route::get('/exercises', [ExerciseController::class, 'index']);
+        Route::get('/exercises/count', [ExerciseController::class, 'countExercises']);
         Route::get('/exercises/user/{userId}', [ExerciseController::class, 'getUserExercises']);
         Route::get('/exercises/user/{userId}/count', [ExerciseController::class, 'countUserExercises']);
         Route::apiResource('/exercises', ExerciseController::class)->except(['index']);
+
 
         Route::get('/exercise-statistics', [ExerciseStatisticController::class, 'index']);
         Route::get('/exercise-statistics/workout/{workoutExerciseId}', [ExerciseStatisticController::class, 'getByWorkoutExercise']);
@@ -46,6 +53,7 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('/exercise-statistics', ExerciseStatisticController::class)->except(['index']);
 
         
+        Route::get('/routines/count', [RoutineController::class, 'countRoutines']);
         Route::apiResource('/routines', RoutineController::class);
 
         
@@ -56,12 +64,15 @@ Route::prefix('v1')->group(function(){
 
         
         Route::apiResource('/workout-exercises', WorkoutExerciseController::class);
+
+
+        Route::get('/month-activity', [LoginLogController::class, 'getMonthlyLoginActivity']);
     });
 });
 
 
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});

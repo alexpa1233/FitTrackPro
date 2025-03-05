@@ -34,15 +34,7 @@ const Navbar = () => {
             </button>
             <div className='collapse navbar-collapse' id='navbarNav'>
                 <ul className='navbar-nav ms-auto'>
-                    <li className='nav-item me-2'>
-                        <a className='nav-link' href='#'>Routines</a>
-                    </li>
-                    <li className='nav-item me-2'>
-                        <a className='nav-link' href='#'>Exercises</a>
-                    </li>
-                    <li className='nav-item me-2'>
-                        <a className='nav-link' href='#'>Users</a>
-                    </li>
+                    
 
                     {logout()}
                 </ul>
@@ -99,8 +91,8 @@ const Navbar = () => {
 
 
   return (
-    <nav className='navbar navbar-expand-lg bg-body-tertiary'>
-        <div className='container-fluid'>
+    <nav className='navbar navbar-expand-lg bg-light'>
+        <div className='container'>
             {renderLinks()}
         </div>
     </nav>

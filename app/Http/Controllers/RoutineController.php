@@ -23,6 +23,17 @@ class RoutineController extends Controller
 
     }
 
+    public function countRoutines()
+    {
+        $count = Routine::where('user_id', 0)->count();
+
+        return response([
+            'status' => 'success',
+            'data' => $count,
+            'code' => 200
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LoginLog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,8 @@ class AuthController extends Controller
        return response(
             [
                 'status' => 'created',
-                'data' => $token,
+                'token' => $token,
+                'user'=>$user->load('roles'),
                 'code' => 201
             ]
             
@@ -46,31 +48,35 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        
-
-        
-        if(auth()->attempt(['email' => $request->email, 'password' => $request->password])){
-
-            $user = auth()->user();
-
-            $user->hasRole('client');
-            $token = $user->createToken('auth_token')->plainTextToken;
-        }else{
-            return response(
-                [
-                    'status' => 'error',
-                    'message' => 'Unauthorized',
-                    'code' => 401
-                ]
-            );
+        if(!Auth::attempt($request->only('email', 'password'))){
+            return response([
+                'status' => 'error',
+                'message' => 'Unauthorized',
+                'code' => 401
+            ]);
         }
-        return response(
+
+        
+       $user = Auth::user()->load('roles');
+       
+       if ($user->roles->contains('name', 'client')) {
+        LoginLog::create([
+            'user_id' => $user->id
+        ]);
+    }
+    
+
+
+       $token = $user->createToken('auth_token')->plainTextToken;
+       return response(
             [
                 'status' => 'success',
-                'data' => [$token,$user],
+                'token' => $token,
+                'user'=>$user->load('roles'),
                 'code' => 200
             ]
-        );
+            
+       );
     }
 
     public function logout()

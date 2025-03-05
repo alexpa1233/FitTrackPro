@@ -16,21 +16,27 @@ const Login = () => {
 
      const submitLogin = async (e) => {
             e.preventDefault();
-            Config.getLogin({email:email,password:password})
-            .then(({data})=>{
-                if(data.status === 'success'){
-                  console.log(data.data);
-                    setToken(
-                        data.data[1],
-                        data.data[0],
-                        data.data[1].roles[0].name
-                    );
-                    
-                }else{
-                  console.log(data.message);
+            
+            
+            await axios.get('/sanctum/csrf-cookie').then(response => {
+              Config.getLogin({email:email,password:password})
+              .then(({data})=>{
+                  if(data.status === 'success'){
+                    console.log(data.user);
+                      setToken(
+                        data.user,
+                        data.token,
+                        data.user.roles[0].name
+                      );
+                      
+                  }else{
+                    console.log(data.message);
+  
+                  }
+              })
+            });
 
-                }
-            })
+           
             
         }
   return (

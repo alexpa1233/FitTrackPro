@@ -7,6 +7,7 @@
     <title>FitTracPro</title>
     @viteReactRefresh
     @vite("resources/js/app.js")
+    
 </head>
 <body>
     <div id="root"></div>
