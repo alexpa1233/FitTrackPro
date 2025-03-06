@@ -23,6 +23,18 @@ class RoutineController extends Controller
 
     }
 
+    public function defaultWorkout(Request $request)
+    {
+        $routines = Routine::where('user_id', 0)->get();
+
+        return response([
+            'status' => 'success',
+            'data' => $routines,
+            'code' => 200
+        ]);
+
+    }
+
     public function countRoutines()
     {
         $count = Routine::where('user_id', 0)->count();

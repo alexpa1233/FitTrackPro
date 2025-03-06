@@ -13,10 +13,11 @@ import Login from './pageauth/Login';
 import Register from './pageauth/Register';
 
 import Dashboard from './pagebackoffice/Dashboard';
-import UserAll from './pagebackoffice/User/UserAll';
+
 
 import Service from './pageservice/Service';
-import UserDetail from './pagebackoffice/User/UserDetail';
+import UserDetail from './pagebackoffice/user/UserDetail';
+import UserAll from './pagebackoffice/user/UserAll';
 
 const App = () => {
     return(

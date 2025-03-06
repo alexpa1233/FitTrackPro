@@ -26,27 +26,28 @@ use App\Http\Controllers\ExerciseStatisticController;
 
 Route::prefix('v1')->group(function(){
     
-
+    //public Auth
     Route::post('/auth/register', [AuthController::class, 'register']);
     Route::post('/auth/login', [AuthController::class, 'login']);
 
     Route::middleware(['auth:sanctum'])->group(function () {
+        //Auth
         Route::post('/auth/logout', [AuthController::class, 'logout']);
 
-
+        //User
         Route::get('/user/client', [UserController::class, 'getUserWithClientRole']);
         Route::get('/user/client/count', [UserController::class, 'countClientUsers']);
         Route::apiResource('/user', UserController::class);
        
 
-       
-        Route::get('/exercises', [ExerciseController::class, 'index']);
+       //exercise
+        Route::get('/exercises/user/{userId}', [ExerciseController::class, 'index']);
+        Route::get('/exercises', [ExerciseController::class, 'defaultExercises']);
         Route::get('/exercises/count', [ExerciseController::class, 'countExercises']);
-        Route::get('/exercises/user/{userId}', [ExerciseController::class, 'getUserExercises']);
         Route::get('/exercises/user/{userId}/count', [ExerciseController::class, 'countUserExercises']);
         Route::apiResource('/exercises', ExerciseController::class)->except(['index']);
 
-
+        
         Route::get('/exercise-statistics', [ExerciseStatisticController::class, 'index']);
         Route::get('/exercise-statistics/workout/{workoutExerciseId}', [ExerciseStatisticController::class, 'getByWorkoutExercise']);
         Route::get('/exercise-statistics/exercise/{exerciseId}', [ExerciseStatisticController::class, 'getByUserAndExercise']);
