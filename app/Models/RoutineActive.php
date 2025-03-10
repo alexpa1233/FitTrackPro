@@ -3,32 +3,24 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\WorkoutExercise;
+use App\Models\Routine;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ExerciseStatistic extends Model
+class RoutineActive extends Model
 {
     use HasFactory;
-
-
     protected $fillable = [
         'user_id',
-        'workout_exercise_id',
-        'sets',
-        'reps',
-        'weight',
-        'duration',
-        'date'
+        'routine_id',
+        
     ];
-
 
     public function user(){
         return $this->belongsTo(User::class);
     }
 
-   
-    public function workoutExercise(){
-        return $this->belongsTo(WorkoutExercise::class);
+    public function routine(){
+        return $this->belongsTo(Routine::class);
     }
 }

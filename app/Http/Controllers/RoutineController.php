@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Routine;
 use Illuminate\Http\Request;
 
@@ -10,10 +11,10 @@ class RoutineController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $userId = $request->user()->id;
-        $routines = Routine::where('user_id', $userId)->get();
+        
+        $routines = Routine::all();
 
         return response([
             'status' => 'success',
@@ -23,9 +24,25 @@ class RoutineController extends Controller
 
     }
 
-    public function defaultWorkout(Request $request)
+    public function defaultRoutine()
     {
-        $routines = Routine::where('user_id', 0)->get();
+        $adminId = User::whereHas('roles', function ($query) {
+            $query->where('name', 'admin');
+        })->pluck('id');
+        $routines = Routine::whereIn('user_id', $adminId)->get();
+
+        return response([
+            'status' => 'success',
+            'data' => $routines,
+            'code' => 200
+        ]);
+
+    }
+
+    public function getRoutinesByUserId($userId)
+    {
+        
+        $routines = Routine::whereIn('user_id', $userId)->get();
 
         return response([
             'status' => 'success',
@@ -37,7 +54,10 @@ class RoutineController extends Controller
 
     public function countRoutines()
     {
-        $count = Routine::where('user_id', 0)->count();
+        $adminId = User::whereHas('roles', function ($query) {
+            $query->where('name', 'admin');
+        })->pluck('id');
+        $count = Routine::whereIn('user_id', $adminId)->count();
 
         return response([
             'status' => 'success',
@@ -53,8 +73,8 @@ class RoutineController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'description' => 'required|string',
-            'user_id' => 'required|integer'
+            'description' => 'string',
+            'user_id' => 'required|integer|exists:users,id'
         ]);
 
         $routine = Routine::create($request->all());

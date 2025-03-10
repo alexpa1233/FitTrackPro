@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\Workout;
+use App\Models\RoutineActive;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Routine extends Model
 {
@@ -12,7 +15,8 @@ class Routine extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'description'
+        'description',
+        'image'
     ];
 
     public function user(){
@@ -21,5 +25,9 @@ class Routine extends Model
 
     public function workouts(){
         return $this->hasMany(Workout::class);
+    }
+
+    public function routineActives(){
+        return $this->hasMany(RoutineActive::class);
     }
 }

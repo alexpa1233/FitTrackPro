@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_routines', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+        Schema::create('routine_actives', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('routine_id')->constrained('routines')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->unique()->onDelete('cascade');
             $table->timestamps();
 
-
-            $table->primary(['user_id', 'routine_id']);
+           
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_routines');
+        Schema::dropIfExists('routine_actives');
     }
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FaUsers, FaDumbbell, FaClipboardList } from "react-icons/fa"; // Íconos opcionales
+import { FaUsers, FaDumbbell, FaClipboardList, FaTags } from "react-icons/fa"; // Íconos opcionales
 
 const Sidebar = () => {
     return (
@@ -20,6 +20,11 @@ const Sidebar = () => {
                     className={({ isActive }) => `list-group-item d-flex align-items-center ${isActive ? "active bg-primary text-white" : "bg-light text-dark"}`}
                 >
                     <FaDumbbell className="me-2" /> Exercises
+                </NavLink>
+                <NavLink to={'/backoffice/type'} 
+                    className={({ isActive }) => `list-group-item d-flex align-items-center ${isActive ? "active bg-primary text-white" : "bg-light text-dark"}`}
+                >
+                    <FaTags className="me-2" /> Types
                 </NavLink>
             </div>
         </div>

@@ -16,11 +16,13 @@ class ExerciseStatisticController extends Controller
         $userId = $request->user()->id;
         $exerciseStatistics = ExerciseStatistic::where('user_id', $userId)->get();
 
-        return response([
-            'status' => 'success',
-            'data' => $exerciseStatistics,
-            'code' => 200
-        ]);
+        return response(
+            [
+                'status' => 'success',
+                'data' => $exerciseStatistics,
+                'code' => 200
+            ]
+        );
     }
 
     public function getByWorkoutExercise(Request $request, $workoutExerciseId)
@@ -30,7 +32,7 @@ class ExerciseStatisticController extends Controller
             ->where('workout_exercise_id', $workoutExerciseId)
             ->get();
 
-        return response()->json([
+        return response([
             'status' => 'success',
             'data' => $exerciseStatistics,
             'code' => 200

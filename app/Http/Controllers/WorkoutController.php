@@ -7,12 +7,21 @@ use Illuminate\Http\Request;
 
 class WorkoutController extends Controller
 {
+
+    public function index(){
+        $workouts = Workout::all();
+        return response([
+            'status' => 'success',
+            'data' => $workouts,
+            'code' => 200
+        ]);
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function getWorkoutByRoutineId($routineId)
     {
-       $routineId = $request->routine_id;
+       
        $workouts = Workout::where('routine_id', $routineId)->get();
        return response([
            'status' => 'success',

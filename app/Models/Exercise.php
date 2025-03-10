@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Type;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Exercise extends Model
 {
@@ -14,7 +16,8 @@ class Exercise extends Model
         'user_id',
         'type_id',
         'name',
-        'description'
+        'description',
+        'image'
     ];
 
     public function user(){

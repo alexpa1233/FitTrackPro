@@ -3,8 +3,11 @@
 namespace App\Models;
 
 
+use App\Models\Routine;
+use App\Models\Exercise;
 use App\Models\LoginLog;
-use App\Models\LoginLogs;
+use App\Models\RoutineActive;
+use App\Models\ExerciseStatistic;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -50,6 +53,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function routineActive(){
+        return $this->hasOne(RoutineActive::class);
+    }
+
     public function routines(){
             return $this->hasMany(Routine::class);
     }

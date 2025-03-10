@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Exercise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ExerciseController extends Controller
 {
@@ -13,7 +15,7 @@ class ExerciseController extends Controller
     public function index()
     {
         //
-        $exercises = Exercise::where('user_id', 0)->get();
+        $exercises = Exercise::all();
 
         return response(
             [
@@ -26,7 +28,11 @@ class ExerciseController extends Controller
 
     public function countExercises()
     {
-        $count = Exercise::where('user_id', 0)->count();
+        $adminId = User::whereHas('roles', function ($query) {
+                    $query->where('name', 'admin');
+                })->pluck('id');
+
+        $count = Exercise::whereIn('user_id', $adminId)->count();
 
         return response(
             [
@@ -38,9 +44,27 @@ class ExerciseController extends Controller
     }
 
 
-    public function getUserExercises(Request $request)
+    public function defaultExercise()
     {
-        $exercises = Exercise::where('user_id', $request->user()->id)->get();
+        $adminId = User::whereHas('roles', function ($query) {
+            $query->where('name', 'admin');
+        })->pluck('id');
+
+        $exercises = Exercise::whereIn('user_id', $adminId)->with('type')->get();
+
+        return response(
+            [
+                'status' => 'success',
+                'data' => $exercises,
+                'code' => 200
+            ]
+        );
+    }
+
+
+    public function getUserExercises($userId)
+    {
+        $exercises = Exercise::where('user_id',$userId)->get();
         
 
         return response(
@@ -52,11 +76,9 @@ class ExerciseController extends Controller
         );
     }
 
-    public function getUserExercisesByType(Request $request, $typeId)
+    public function filterByType($typeId)
     {
-        $exercises = Exercise::where('user_id', $request->user()->id)
-            ->where('type_id', $typeId)
-            ->get();
+        $exercises = Exercise::where('type_id', $typeId)->get();
 
         return response(
             [
@@ -67,9 +89,9 @@ class ExerciseController extends Controller
         );
     }
 
-    public function countUserExercises(Request $request)
+    public function countUserExercises($userId)
     {
-        $count = Exercise::where('user_id', $request->user()->id)->count();
+        $count = Exercise::where('user_id', $userId)->count();
 
         return response(   
             [
@@ -92,8 +114,15 @@ class ExerciseController extends Controller
                 'description' => 'nullable|string',
                 'user_id' => 'required|integer|exists:users,id',
                 'type_id' => 'required|integer|exists:types,id',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]
         );
+
+        $imageUrl = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('public/exercise_images');
+            $imageUrl = Storage::url($imagePath);
+        }
 
         $exercise = Exercise::create(
             [
@@ -101,6 +130,7 @@ class ExerciseController extends Controller
                 'description' => $request->description,
                 'user_id' => $request->user_id,
                 'type_id' => $request->type_id,
+                'image' => $imageUrl
             ]
         );
 
@@ -138,6 +168,7 @@ class ExerciseController extends Controller
                 'name' => 'sometimes|string|max:255',
                 'description' => 'nullable|string',
                 'type_id' => 'sometimes|integer|exists:types,id',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]
         );
 
@@ -149,6 +180,13 @@ class ExerciseController extends Controller
         }
         if ($request->has('type_id')) {
             $exercise->type_id = $request->type_id;
+        }
+
+        
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('public/exercise_images');
+            $imageUrl = Storage::url($imagePath);
+            $exercise->image = $imageUrl;
         }
 
         $exercise->save();

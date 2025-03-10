@@ -14,10 +14,18 @@ import Register from './pageauth/Register';
 
 import Dashboard from './pagebackoffice/Dashboard';
 
-
 import Service from './pageservice/Service';
+
 import UserDetail from './pagebackoffice/user/UserDetail';
 import UserAll from './pagebackoffice/user/UserAll';
+
+import ExerciseAll from './pagebackoffice/exercise/ExerciseAll';
+import ExerciseEdit from './pagebackoffice/exercise/ExerciseEdit';
+import ExerciseCreate from './pagebackoffice/exercise/ExerciseCreate';
+
+import RoutineAll from './pagebackoffice/routine/RoutineAll';
+import TypeAll from './pagebackoffice/type/TypeAll';
+
 
 const App = () => {
     return(
@@ -32,10 +40,18 @@ const App = () => {
                 <Route element={<ProtectedRoutes/>}>
                     <Route path="/backoffice" element={<LayoutBackoffice/>}>
                         <Route index element={<Dashboard/>}/>
+
                         <Route path="user" element={<UserAll/>} />
                         <Route path="user/:id" element={<UserDetail/>} />
-                        <Route path="exercise" element={<Register/>}/> 
-                        <Route path="routine" element={<Register/>}/>    
+
+                        <Route path="exercise" element={<ExerciseAll/>}/>
+                        <Route path="exercise/create" element={<ExerciseCreate/>}/>
+                        <Route path="exercise/edit/:id" element={<ExerciseEdit/>}/>
+                        
+                        <Route path="routine" element={<RoutineAll/>}/>
+                        <Route path='routine/:id' element={<RoutineAll/>}/>
+
+                        <Route path="type" element={<TypeAll/>}/>   
                     </Route>
                     <Route path="/service" element={<LayoutService/>}>
                         <Route index element={<Home/>}/>

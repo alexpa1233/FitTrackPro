@@ -3,6 +3,7 @@ import React, { use, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../Sidebar';
 import Config from '../../Config';
+import Swal from 'sweetalert2';
 
 function UserAll() {
     const [user, setUser] = useState([]);
@@ -18,7 +19,7 @@ function UserAll() {
         try {
             const response = await Config.getUserAll();
             if (response.data.data && Array.isArray(response.data.data)) {
-                console.log(response.data);
+                
                 setUser(response.data.data);
             } else {   
                 console.log(response.data.message);
@@ -32,11 +33,27 @@ function UserAll() {
     }
 
     const handleDeleteUser = async (id) => {
-        try {
-            await Config.deleteUser(id);
-            setUser(user.filter((item) => item.id !== id));
-        } catch (error) {
-            console.log("Error deleting user:", error);
+       const confirm = await Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel",
+       });
+
+        if (confirm.isConfirmed) {
+            try {
+                const response = await Config.deleteType(id);
+                if (response.ok) {
+                    Swal.fire("Deleted!", "The type has been deleted.", "success");
+                    getUserAll();
+                } else {
+                    Swal.fire("Error", "Failed to delete type.", "error");
+                }
+            } catch (error) {
+                Swal.fire("Error", "Server error", "error");
+            }
         }
     };
 
@@ -64,15 +81,8 @@ function UserAll() {
                                         <td>{item.id}</td>
                                         <td>{item.name}</td>
                                         <td>
-                                        <button
-                                            className="btn btn-primary"
-                                            onClick={() => navigate(`/backoffice/user/${item.id}`)}
-                                        >
-                                            View
-                                        </button>
-                                            <button className="btn btn-danger" onClick={()=>{
-                                                handleDeleteUser(item.id);
-                                            }} >Delete</button>
+                                            <button className="btn btn-primary" onClick={() => navigate(`/backoffice/user/${item.id}`)}>View</button>
+                                            <button className="btn btn-danger" onClick={()=>{handleDeleteUser(item.id);}} >Delete</button>
                                         </td>
                                     </tr>
                                 )
