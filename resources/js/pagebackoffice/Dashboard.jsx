@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
 import { FaUsers, FaClipboardList, FaDumbbell } from "react-icons/fa";
-import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
 import Config from '../Config';
 
 const Dashboard = () => {
-  const [data, setData] = useState([]);
+  const data = [
+    { name: 'Jan', logins: 120 },
+    { name: 'Feb', logins: 98 },
+    { name: 'Mar', logins: 150 },
+    { name: 'Apr', logins: 170 },
+    { name: 'May', logins: 200 },
+    { name: 'Jun', logins: 130 },
+    { name: 'Jul', logins: 160 },
+    { name: 'Aug', logins: 180 },
+    { name: 'Sep', logins: 140 },
+    { name: 'Oct', logins: 190 },
+    { name: 'Nov', logins: 220 },
+    { name: 'Dec', logins: 210 },
+  ];
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalRoutines, setTotalRoutines] = useState(0);
   const [totalExercises, setTotalExercises] = useState(0);
@@ -63,14 +76,13 @@ const Dashboard = () => {
           <div className="card p-3 shadow bg-light">
               <h5 className="text-primary">Activity Overview</h5>
               <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={data}>
-                      <XAxis dataKey="name" stroke="#10497F" />
-                      <YAxis stroke="#10497F" />
-                      <Tooltip />
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <Line type="monotone" dataKey="users" stroke="#10497F" strokeWidth={2} />
-                      <Line type="monotone" dataKey="routines" stroke="#AFAFB0" strokeWidth={2} />
-                  </LineChart>
+                  <BarChart data={data}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" stroke="#10497F" />
+                    <YAxis stroke="#10497F" />
+                    <Tooltip />
+                    <Bar dataKey="logins" fill="var(--bs-primary)" />
+                </BarChart>
               </ResponsiveContainer>
           </div>
         </div>

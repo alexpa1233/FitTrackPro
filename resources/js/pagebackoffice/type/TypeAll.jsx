@@ -52,6 +52,40 @@ const TypeAll = () => {
         }
     };
 
+    const handleEditType = async (type) => {
+        const { value: newName } = await Swal.fire({
+            title: "Edit Type",
+            input: "text",
+            inputValue: type.name,
+            inputPlaceholder: "Type name",
+            showCancelButton: true,
+            confirmButtonText: "Save Changes",
+            preConfirm: (value) => {
+                if (!value) {
+                    Swal.showValidationMessage("Type name cannot be empty");
+                }
+                return value;
+            },
+        });
+
+        if (newName && newName !== type.name) {
+            try {
+                const response = await Config.updateType(type.id, newName); 
+
+                if (response.data.code === 200) {
+                    Swal.fire("Success", `Type "${newName}" updated!`, "success");
+                    getTypeAll();
+                } else {
+                    Swal.fire("Error", "Failed to update type", "error");
+                }
+            } catch (error) {
+                Swal.fire("Error", "Server error", "error");
+            }
+        }
+    };
+
+
+
     const handleDeleteType = async (id) => {
         const confirm = await Swal.fire({
             title: "Are you sure?",
@@ -103,12 +137,8 @@ const TypeAll = () => {
                                             <td>{type.id}</td>
                                             <td>{type.name}</td>
                                             <td>
-                                                <button
-                                                    className="btn btn-danger"
-                                                    onClick={() => handleDeleteType(type.id)}
-                                                >
-                                                    Delete
-                                                </button>
+                                                <button className="btn btn-primary me-2" onClick={() => handleEditType(type)}>Edit</button>
+                                                <button className="btn btn-danger" onClick={() => handleDeleteType(type.id)}>Delete</button>
                                             </td>
                                         </tr>
                                     ))

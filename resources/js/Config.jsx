@@ -177,7 +177,7 @@ export default {
         headers: getAuthHeader()
     }),
     
-    updateExercise: (exerciseId, data) => axios.put(`${baseUrl}/exercises/${exerciseId}`, data, {
+    updateExercise: (exerciseId, data) => axios.post(`${baseUrl}/exercises/${exerciseId}`, data, {
         headers: getAuthHeader()
     }),
 
@@ -191,6 +191,10 @@ export default {
     }),
 
     createType: (name) => axios.post(`${baseUrl}/types`,{name:name}, {
+        headers: getAuthHeader()
+    }),
+
+    updateType: (typeId, name) => axios.put(`${baseUrl}/types/${typeId}`,{name:name}, {
         headers: getAuthHeader()
     }),
 

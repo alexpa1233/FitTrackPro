@@ -25,7 +25,7 @@ class TypeSeeder extends Seeder
             ['name' => 'Shoulders'],
             ['name' => 'Triceps'],
             ['name' => 'Upper Legs'],
-            ['name' => 'Lowe Legs'],
+            ['name' => 'Lower Legs'],
         ];
 
         foreach ($types as $type) {

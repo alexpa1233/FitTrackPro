@@ -15,9 +15,12 @@ const Navbar = () => {
 
   const logout = () =>{
    return( 
-     <li className='nav-item me-2'>
-          <a className='nav-link' href='#' onClick={logoutUser}>Logout</a>
-      </li>
+    <li className="nav-item me-2">
+      <button type="button" className="btn btn-secondary" onClick={logoutUser}>
+        Logout
+      </button>
+    </li>
+
     );
   }
 

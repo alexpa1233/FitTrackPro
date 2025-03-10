@@ -41,12 +41,13 @@ Route::prefix('v1')->group(function(){
        
 
        //exercise
-       Route::get('/exercises/filter/{typeId}', [ExerciseController::class, 'filterByType']);
+        Route::get('/exercises/filter/{typeId}', [ExerciseController::class, 'filterByType']);
         Route::get('/exercises/default', [ExerciseController::class, 'defaultExercise']);
         Route::get('/exercises/count', [ExerciseController::class, 'countExercises']);
         Route::get('/exercises/user/{userId}/count', [ExerciseController::class, 'countUserExercises']);
         Route::get('/exercises/user/{userId}', [ExerciseController::class, 'getUserExercises']);
-        Route::apiResource('/exercises', ExerciseController::class);
+        Route::post('/exercises/{exercise}', [ExerciseController::class, 'update']);
+        Route::apiResource('/exercises', ExerciseController::class)->except('update');
 
         //exercise statics
         Route::get('/exercise-statistics', [ExerciseStatisticController::class, 'index']);
@@ -58,7 +59,8 @@ Route::prefix('v1')->group(function(){
         Route::get('/routines/default', [RoutineController::class, 'defaultRoutine']);
         Route::get('/routines/user/{userId}', [RoutineController::class, 'getRoutinesByUserId']);
         Route::get('/routines/count', [RoutineController::class, 'countRoutines']);
-        Route::apiResource('/routines', RoutineController::class);
+        Route::post('/routines/{routineId}', [RoutineController::class, 'update']);
+        Route::apiResource('/routines', RoutineController::class)->except('update');
 
         //RoutineActive
         Route::post('/routine/activate', [RoutineActiveController::class, 'store']);

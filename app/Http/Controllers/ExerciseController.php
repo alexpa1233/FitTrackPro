@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Exercise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ExerciseController extends Controller
@@ -106,42 +107,41 @@ class ExerciseController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
-        $request->validate(
-            [
-                'name' => 'required|string|max:255',
-                'description' => 'nullable|string',
-                'user_id' => 'required|integer|exists:users,id',
-                'type_id' => 'required|integer|exists:types,id',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]
-        );
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'user_id' => 'required|integer|exists:users,id',
+        'type_id' => 'required|integer|exists:types,id',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        $imageUrl = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/exercise_images');
-            $imageUrl = Storage::url($imagePath);
-        }
+   
+    $exercise = Exercise::create([
+        'name' => $request->name,
+        'description' => $request->description,
+        'user_id' => $request->user_id,
+        'type_id' => $request->type_id,
+        'image' => null,  // Inicialmente nulo
+    ]);
 
-        $exercise = Exercise::create(
-            [
-                'name' => $request->name,
-                'description' => $request->description,
-                'user_id' => $request->user_id,
-                'type_id' => $request->type_id,
-                'image' => $imageUrl
-            ]
-        );
-
-        return response(
-            [
-                'status' => 'success',
-                'data' => $exercise,
-                'code' => 201
-            ]
-        );
+    
+    if ($request->hasFile('image')) {
+        //Modificar nombre de la imagen a id del ejercicio.
+        $imageExtension = $request->file('image')->getClientOriginalExtension();
+        $newImageName = 'exercise_' . $exercise->id . '.' . $imageExtension;
+        //Subir imagen
+        $imagePath = $request->file('image')->storeAs('public/exercise_images', $newImageName);
+        $imageUrl = Storage::url($imagePath);
+        $exercise->update(['image' => $imageUrl]);
     }
+
+    return response([
+        'status' => 'success',
+        'data' => $exercise,
+        'code' => 201
+    ]);
+}
 
     /**
      * Display the specified resource.
@@ -163,14 +163,13 @@ class ExerciseController extends Controller
      */
     public function update(Request $request, Exercise $exercise)
     {
-        $request->validate(
-            [
-                'name' => 'sometimes|string|max:255',
-                'description' => 'nullable|string',
-                'type_id' => 'sometimes|integer|exists:types,id',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]
-        );
+        $request->validate([
+            'name' => 'string|max:255',
+            'description' => 'nullable|string',
+            'user_id' => 'integer|exists:users,id',
+            'type_id' => 'integer|exists:types,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
         if ($request->has('name')) {
             $exercise->name = $request->name;
@@ -184,10 +183,18 @@ class ExerciseController extends Controller
 
         
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/exercise_images');
+            if ($exercise->image) {
+                Storage::delete(str_replace('/storage', 'public', $exercise->image));
+            }
+            //Modificar nombre de la imagen a id del ejercicio.
+            $imageExtension = $request->file('image')->getClientOriginalExtension();
+            $newImageName = 'exercise_' . $exercise->id . '.' . $imageExtension;
+            //Subir imagen
+            $imagePath = $request->file('image')->storeAs('public/exercise_images', $newImageName);
             $imageUrl = Storage::url($imagePath);
             $exercise->image = $imageUrl;
         }
+
 
         $exercise->save();
 

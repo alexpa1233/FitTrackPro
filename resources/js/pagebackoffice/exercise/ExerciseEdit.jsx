@@ -13,6 +13,8 @@ const ExerciseEdit = () => {
     const { id } = useParams();
     const [types, setTypes] = useState([]);
     const [selectedType, setSelectedType] = useState("");
+    const [image, setImage] = useState("");
+    const [preview, setPreview] = useState(null);
     const navigate = useNavigate();
 
 
@@ -23,7 +25,7 @@ const ExerciseEdit = () => {
                 setName(response.data.data.name);
                 setDescription(response.data.data.description);
                 setSelectedType(response.data.data.type_id);
-
+                setImage(response.data.data.image)
 
                 const types = await Config.getTypeAll();
                 setTypes(types.data.data);
@@ -34,32 +36,49 @@ const ExerciseEdit = () => {
         fetchExercise();
     }, [id]);
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            setPreview(URL.createObjectURL(file));
+        }
+    };
+
     const handleUpdate = async (e) => {
         e.preventDefault();
-
+    
         if (!name || !description) {
             Swal.fire("Error", "Please fill in all fields", "error");
             return;
         }
+    
+        let formData = new FormData();
+        formData.append("name", name);
+        formData.append("description", description);
+        formData.append("type_id", selectedType);
+        formData.append("user_id", getUser().id);
+    
 
+        if (image instanceof File) {
+            formData.append("image", image);
+        }
+    
+
+        for (let [key, value] of formData.entries()) {
+            console.log(key + ': ' + (value instanceof File ? value.name : value));
+        }
+    
         try {
-            const userId = getUser().id;
-            const data = {
-                name: name,
-                description: description,
-                type_id: selectedType,
-                user_id:userId,
-            }
-            
-            
-            await Config.updateExercise(id, data); 
+            const response = await Config.updateExercise(id, formData);
+            console.log(response);
             Swal.fire("Success", `Exercise "${name}" updated!`, "success");
-
+            navigate(-1);
         } catch (error) {
             console.log(error);
             Swal.fire("Error", "Failed to update exercise", "error");
         }
     };
+    
 
     return (
         <div className="container bg-light">
@@ -69,6 +88,58 @@ const ExerciseEdit = () => {
                     <div className="card-body">
                         <h3>Edit Exercise</h3>
                         <form onSubmit={handleUpdate}>
+                        <div className="form-group">
+                               
+                                <label>Exercise Image</label>
+
+                                
+                                <div
+                                    className="card d-flex align-items-center justify-content-center p-3 mx-auto"
+                                    style={{
+                                        width: "200px",
+                                        height: "200px",
+                                        border: "2px dashed #ccc",
+                                        cursor: "pointer",
+                                        overflow: "hidden",
+                                        position: "relative",
+                                    }}
+                                    onClick={() => document.getElementById("imageUpload").click()}
+                                >
+                                    {preview ? (
+                                        <img
+                                            src={preview}
+                                            alt="Preview"
+                                            style={{
+                                                width: "100%",
+                                                height: "100%",
+                                                objectFit: "contain",
+                                            }}
+                                        />
+                                    ) : image ? (
+                                        <img
+                                            src={image}
+                                            alt="Exercise Image"
+                                            style={{
+                                                width: "100%",
+                                                height: "100%",
+                                                objectFit: "contain",
+                                            }}
+                                        />
+                                    ) : (
+                                        <span style={{ fontSize: "50px", color: "#ccc" }}>+</span>
+                                    )}
+                                </div>
+
+
+                               
+                                <input
+                                    type="file"
+                                    id="imageUpload"
+                                    style={{ display: "none" }}
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                />
+                            </div>
                             <div className="form-group">
                                 <label>Exercise Name</label>
                                 <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter exercise name"/>
