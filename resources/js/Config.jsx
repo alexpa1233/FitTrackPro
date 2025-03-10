@@ -38,9 +38,7 @@ export default {
     getCountUser: () => axios.get(`${baseUrl}/user/client/count`, {
         headers: getAuthHeader()
     }),
-    deleteUser: (userId) => axios.delete(`${baseUrl}/user/${userId}`, {
-        headers: getAuthHeader()
-    }),
+    
 
 
     //Routine
@@ -60,7 +58,7 @@ export default {
         headers: getAuthHeader()
     }),
 
-    getRoutineById:(userId) => axios.get(`${baseUrl}/routines/user/${userId}`,{
+    getRoutineByUserId:(userId) => axios.get(`${baseUrl}/routines/user/${userId}`,{
         headers: getAuthHeader()
     }),
 
