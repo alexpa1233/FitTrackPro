@@ -57,13 +57,13 @@ const Navbar = () => {
             <div className='collapse navbar-collapse' id='navbarNav'>
                 <ul className='navbar-nav ms-auto'>
                     <li className='nav-item me-2'>
-                        <a className='nav-link' href='#'>Routines</a>
+                        <a className='nav-link' href='/service/routine'>Routines</a>
                     </li>
                     <li className='nav-item me-2'>
-                        <a className='nav-link' href='#'>Exercises</a>
+                        <a className='nav-link' href='/service/exercise'>Exercises</a>
                     </li>
                     <li className='nav-item me-2'>
-                        <a className='nav-link' href='#'>Profile</a>
+                        <a className='nav-link' href='/service/profile'>Profile</a>
                     </li>
                     {logout()}
                 </ul>
