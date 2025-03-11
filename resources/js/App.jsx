@@ -25,6 +25,7 @@ import ExerciseCreate from './pagebackoffice/exercise/ExerciseCreate';
 
 import RoutineAll from './pagebackoffice/routine/RoutineAll';
 import TypeAll from './pagebackoffice/type/TypeAll';
+import Exercises from './pageservice/exercise/Exercises';
 
 
 const App = () => {
@@ -54,8 +55,8 @@ const App = () => {
                         <Route path="type" element={<TypeAll/>}/>   
                     </Route>
                     <Route path="/service" element={<LayoutService/>}>
-                        <Route index element={<Home/>}/>
                         <Route index element={<Service/>}/>
+                        <Route path="exercise" element={<Exercises/>}/>   
                     </Route>
                 </Route>
             </Routes>
