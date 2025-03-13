@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import Config from '../../Config';
-
 
 function UserDetail() {
     const { id } = useParams();
@@ -45,4 +44,4 @@ function UserDetail() {
     );
 }
 
-export default UserDetail;
+export default UserDetail

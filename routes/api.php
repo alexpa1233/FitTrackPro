@@ -57,7 +57,7 @@ Route::prefix('v1')->group(function(){
 
         //routines
         Route::get('/routines/default', [RoutineController::class, 'defaultRoutine']);
-        Route::get('/routines/user/{userId}', [RoutineController::class, 'getRoutinesByUserId']);
+        Route::get('/routines/user/{user_id}', [RoutineController::class, 'getRoutinesByUserId']);
         Route::get('/routines/count', [RoutineController::class, 'countRoutines']);
         Route::post('/routines/{routine}', [RoutineController::class, 'update']);
         Route::apiResource('/routines', RoutineController::class)->except('update');

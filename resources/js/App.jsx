@@ -16,7 +16,7 @@ import Dashboard from './pagebackoffice/Dashboard';
 
 import Service from './pageservice/Service';
 
-import UserDetail from './pagebackoffice/user/UserDetail';
+
 import UserAll from './pagebackoffice/user/UserAll';
 
 import ExerciseAll from './pagebackoffice/exercise/ExerciseAll';
@@ -36,6 +36,11 @@ import RoutineDetail from './pagebackoffice/routine/RoutineDetail';
 import ExerciseView from './pageservice/exercise/ExerciseView';
 import ExerciseEditCustom from './pageservice/exercise/ExerciseEditCustom';
 import ExerciseCreateCustom from './pageservice/exercise/ExerciseCreateCustom';
+import Routines from './pageservice/routine/Routines';
+import RoutineEdit from './pageservice/routine/RoutineEdit';
+import RoutineView from './pageservice/routine/RoutineView';
+import UserDetail from './pagebackoffice/user/UserDetail';
+
 
 
 const App = () => {
@@ -53,7 +58,7 @@ const App = () => {
                         <Route index element={<Dashboard/>}/>
 
                         <Route path="user" element={<UserAll/>} />
-                        <Route path="user/:id" element={<UserDetail/>} />
+                        <Route path="user/:id" element={<UserDetail/>}/>
 
                         <Route path="exercise" element={<ExerciseAll/>}/>
                         <Route path="exercise/create" element={<ExerciseCreate/>}/>
@@ -69,7 +74,11 @@ const App = () => {
                         <Route path="exercise" element={<Exercises/>}/>
                         <Route path="exercise/create" element={<ExerciseCreateCustom/>}/>
                         <Route path="exercise/edit/:id" element={<ExerciseEditCustom/>}/> 
-                        <Route path="exercise/view/:id" element={<ExerciseView/>}/>  
+                        <Route path="exercise/view/:id" element={<ExerciseView/>}/> 
+
+                        <Route path="routine" element={<Routines/>}/>
+                        <Route path="routine/edit/:id" element={<RoutineEdit/>}/> 
+                        <Route path="routine/view/:id" element={<RoutineView/>}/> 
                     </Route>
                 </Route>
             </Routes>

@@ -44,7 +44,7 @@ class RoutineController extends Controller
     public function getRoutinesByUserId($userId)
     {
         
-        $routines = Routine::whereIn('user_id', $userId)->get();
+        $routines = Routine::where('user_id', $userId)->get();
 
         return response([
             'status' => 'success',
