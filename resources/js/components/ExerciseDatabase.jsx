@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Config from "../../Config";
+import Config from "../Config";
 
 function ExerciseDatabase({ onClose, onSelectExercise }) {
   const [exercises, setExercises] = useState([]);

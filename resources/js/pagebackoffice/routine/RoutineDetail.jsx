@@ -4,7 +4,7 @@ import Config from '../../Config';
 import Swal from 'sweetalert2';
 import Sidebar from "../Sidebar";
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import ExerciseDatabase from './ExerciseDatabase'; // Asegúrate de la ruta
+import ExerciseDatabase from '../../components/ExerciseDatabase'; 
 import { getUser } from '../../pageauth/AuthUser';
 
 function RoutineDetail() {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RoutineActive;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RoutineActiveController extends Controller
 {
@@ -19,12 +20,14 @@ class RoutineActiveController extends Controller
     public function store(Request $request)
     {
         //
+        Log::alert($request);
+
         $request->validate([
             'routine_id' => 'required|exists:routines,id',
             'user_id' => 'required|exists:users,id',
         ]);
 
-        //Controlamos que no haya otra rutina activa de ese usuario
+        
         $existingRoutineActive = RoutineActive::where('user_id', $request->user_id)->first();
         //Si existe lo borramos (solucion de errores)
         if ($existingRoutineActive) {

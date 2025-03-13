@@ -75,7 +75,7 @@ export default {
     }),
 
     //Active routine
-    activeRoutine: () => axios.post(`${baseUrl}/routine/active`, {
+    activeRoutine: (data) => axios.post(`${baseUrl}/routine/activate`, data, {
         headers: getAuthHeader()
     }),
 

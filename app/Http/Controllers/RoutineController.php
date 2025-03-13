@@ -31,7 +31,13 @@ class RoutineController extends Controller
         $adminId = User::whereHas('roles', function ($query) {
             $query->where('name', 'admin');
         })->pluck('id');
-        $routines = Routine::whereIn('user_id', $adminId)->get();
+        if(count($adminId) > 1){
+            $routines = Routine::whereIn('user_id', $adminId)->get();
+        }else{
+            $routines = Routine::where('user_id', $adminId)->get();
+        }
+        
+        
 
         return response([
             'status' => 'success',
@@ -59,7 +65,14 @@ class RoutineController extends Controller
         $adminId = User::whereHas('roles', function ($query) {
             $query->where('name', 'admin');
         })->pluck('id');
-        $count = Routine::whereIn('user_id', $adminId)->count();
+
+        if(count($adminId) > 1){
+            $count = Routine::whereIn('user_id', $adminId)->count();
+        }else{
+            $count = Routine::where('user_id', $adminId)->count();
+        }
+
+        
 
         return response([
             'status' => 'success',

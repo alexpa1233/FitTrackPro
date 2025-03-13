@@ -40,6 +40,7 @@ import Routines from './pageservice/routine/Routines';
 import RoutineEdit from './pageservice/routine/RoutineEdit';
 import RoutineView from './pageservice/routine/RoutineView';
 import UserDetail from './pagebackoffice/user/UserDetail';
+import ExerciseStaticsView from './pageservice/exerciseStatic/ExerciseStatisticsView';
 
 
 
@@ -79,6 +80,9 @@ const App = () => {
                         <Route path="routine" element={<Routines/>}/>
                         <Route path="routine/edit/:id" element={<RoutineEdit/>}/> 
                         <Route path="routine/view/:id" element={<RoutineView/>}/> 
+
+                        <Route path="/service/exercises-statics/:workoutId" element={<ExerciseStaticsView />} />
+
                     </Route>
                 </Route>
             </Routes>

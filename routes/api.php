@@ -64,7 +64,7 @@ Route::prefix('v1')->group(function(){
 
         //RoutineActive
         Route::post('/routine/activate', [RoutineActiveController::class, 'store']);
-        Route::get('/routine/active/user/{userId}', [RoutineActiveController::class, 'showActiveRoutine']);
+        Route::get('/routine/active/user/{user_id}', [RoutineActiveController::class, 'show']);
         Route::delete('/routine/user/{user_id}', [RoutineActiveController::class, 'destroy']);
 
         //type
