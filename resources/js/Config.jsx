@@ -66,11 +66,11 @@ export default {
         headers: getAuthHeader()
     }),
 
-    updateRoutine:(routineId) => axios.put(`${baseUrl}/routines/${routineId}`,{
+    updateRoutine:(routineId, data) => axios.post(`${baseUrl}/routines/${routineId}`,data,{
         headers: getAuthHeader()
     }),
 
-    deleteRoutine:() => axios.delete(`${baseUrl}/routines/${routineid}`,{
+    deleteRoutine:(routineId) => axios.delete(`${baseUrl}/routines/${routineId}`,{
         headers: getAuthHeader()
     }),
 
@@ -120,6 +120,11 @@ export default {
 
 
     //workout-exercise
+
+    getWorkoutExercisesByWorkoutId: (workoutId) => axios.get(`${baseUrl}/workout-exercises/workout/${workoutId}`, { 
+        headers: getAuthHeader() 
+    }),
+
     getWorkoutExercises: () => axios.get(`${baseUrl}/workout-exercises`, {
         headers: getAuthHeader()
     }),

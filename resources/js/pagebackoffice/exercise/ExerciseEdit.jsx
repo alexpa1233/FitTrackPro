@@ -11,6 +11,7 @@ const ExerciseEdit = () => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const { id } = useParams();
+    const [user, setUser] = useState(null);
     const [types, setTypes] = useState([]);
     const [selectedType, setSelectedType] = useState("");
     const [image, setImage] = useState("");
@@ -26,6 +27,7 @@ const ExerciseEdit = () => {
                 setDescription(response.data.data.description);
                 setSelectedType(response.data.data.type_id);
                 setImage(response.data.data.image)
+                setUser(response.data.data.user_id);
 
                 const types = await Config.getTypeAll();
                 setTypes(types.data.data);
@@ -56,7 +58,7 @@ const ExerciseEdit = () => {
         formData.append("name", name);
         formData.append("description", description);
         formData.append("type_id", selectedType);
-        formData.append("user_id", getUser().id);
+        formData.append("user_id", user);
     
 
         if (image instanceof File) {
@@ -64,17 +66,13 @@ const ExerciseEdit = () => {
         }
     
 
-        for (let [key, value] of formData.entries()) {
-            console.log(key + ': ' + (value instanceof File ? value.name : value));
-        }
+      
     
         try {
-            const response = await Config.updateExercise(id, formData);
-            console.log(response);
+            await Config.updateExercise(id, formData);
             Swal.fire("Success", `Exercise "${name}" updated!`, "success");
             navigate(-1);
         } catch (error) {
-            console.log(error);
             Swal.fire("Error", "Failed to update exercise", "error");
         }
     };
@@ -87,14 +85,13 @@ const ExerciseEdit = () => {
                 <div className="col-sm-9 mt-3 mb-3">
                     <div className="card-body">
                         <h3>Edit Exercise</h3>
-                        <form onSubmit={handleUpdate}>
+                        <form onSubmit={handleUpdate}  encType="multipart/form-data">
                         <div className="form-group">
                                
                                 <label>Exercise Image</label>
 
                                 
-                                <div
-                                    className="card d-flex align-items-center justify-content-center p-3 mx-auto"
+                                <div className="card d-flex align-items-center justify-content-center p-3 mx-auto"
                                     style={{
                                         width: "200px",
                                         height: "200px",

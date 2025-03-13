@@ -65,7 +65,7 @@ class ExerciseController extends Controller
 
     public function getUserExercises($userId)
     {
-        $exercises = Exercise::where('user_id',$userId)->get();
+        $exercises = Exercise::with('type')->where('user_id',$userId)->get();
         
 
         return response(
@@ -147,7 +147,8 @@ class ExerciseController extends Controller
      * Display the specified resource.
      */
     public function show(Exercise $exercise)
-    {
+    {   
+        $exercise->load('type');
         
         return response(
             [
@@ -163,6 +164,7 @@ class ExerciseController extends Controller
      */
     public function update(Request $request, Exercise $exercise)
     {
+        Log::alert($request);
         $request->validate([
             'name' => 'string|max:255',
             'description' => 'nullable|string',
@@ -170,6 +172,8 @@ class ExerciseController extends Controller
             'type_id' => 'integer|exists:types,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        
 
         if ($request->has('name')) {
             $exercise->name = $request->name;

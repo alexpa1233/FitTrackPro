@@ -24,8 +24,18 @@ import ExerciseEdit from './pagebackoffice/exercise/ExerciseEdit';
 import ExerciseCreate from './pagebackoffice/exercise/ExerciseCreate';
 
 import RoutineAll from './pagebackoffice/routine/RoutineAll';
+
+
+
+
 import TypeAll from './pagebackoffice/type/TypeAll';
+
+
 import Exercises from './pageservice/exercise/Exercises';
+import RoutineDetail from './pagebackoffice/routine/RoutineDetail';
+import ExerciseView from './pageservice/exercise/ExerciseView';
+import ExerciseEditCustom from './pageservice/exercise/ExerciseEditCustom';
+import ExerciseCreateCustom from './pageservice/exercise/ExerciseCreateCustom';
 
 
 const App = () => {
@@ -50,13 +60,16 @@ const App = () => {
                         <Route path="exercise/edit/:id" element={<ExerciseEdit/>}/>
                         
                         <Route path="routine" element={<RoutineAll/>}/>
-                        <Route path='routine/:id' element={<RoutineAll/>}/>
+                        <Route path='routine/:id' element={<RoutineDetail/>}/>
 
                         <Route path="type" element={<TypeAll/>}/>   
                     </Route>
                     <Route path="/service" element={<LayoutService/>}>
                         <Route index element={<Service/>}/>
-                        <Route path="exercise" element={<Exercises/>}/>   
+                        <Route path="exercise" element={<Exercises/>}/>
+                        <Route path="exercise/create" element={<ExerciseCreateCustom/>}/>
+                        <Route path="exercise/edit/:id" element={<ExerciseEditCustom/>}/> 
+                        <Route path="exercise/view/:id" element={<ExerciseView/>}/>  
                     </Route>
                 </Route>
             </Routes>

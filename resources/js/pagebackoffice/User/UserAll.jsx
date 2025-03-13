@@ -22,12 +22,10 @@ function UserAll() {
                 
                 setUser(response.data.data);
             } else {   
-                console.log(response.data.message);
                
                 setUser([]); 
             }
         } catch (error) {
-            console.log(error);
             setUser([]); 
         }
     }

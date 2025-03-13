@@ -22,7 +22,6 @@ const Login = () => {
               Config.getLogin({email:email,password:password})
               .then(({data})=>{
                   if(data.status === 'success'){
-                    console.log(data.user);
                       setToken(
                         data.user,
                         data.token,

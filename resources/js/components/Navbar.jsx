@@ -8,7 +8,6 @@ const Navbar = () => {
 
   const logoutUser=()=>{
     Config.getLogout().then(response=>{
-      console.log(response);
       getLogOut();
     });
   }
@@ -61,9 +60,6 @@ const Navbar = () => {
                     </li>
                     <li className='nav-item me-2'>
                         <a className='nav-link' href='/service/exercise'>Exercises</a>
-                    </li>
-                    <li className='nav-item me-2'>
-                        <a className='nav-link' href='/service/profile'>Profile</a>
                     </li>
                     {logout()}
                 </ul>

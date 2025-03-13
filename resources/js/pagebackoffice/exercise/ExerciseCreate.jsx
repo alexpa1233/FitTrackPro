@@ -71,10 +71,14 @@ const CreateExercise = () => {
                         <div className="form-group">
                                 <label>Exercise Image</label>
                                 <div 
-                                    className="card d-flex align-items-center justify-content-center p-3"
-                                    style={{ 
-                                        width: "200px", height: "200px", 
-                                        border: "2px dashed #ccc", cursor: "pointer" 
+                                    className="card d-flex align-items-center justify-content-center p-3 mx-auto"
+                                    style={{
+                                        width: "200px",
+                                        height: "200px",
+                                        border: "2px dashed #ccc",
+                                        cursor: "pointer",
+                                        overflow: "hidden",
+                                        position: "relative",
                                     }}
                                     onClick={() => document.getElementById("imageUpload").click()}
                                 >
@@ -82,7 +86,11 @@ const CreateExercise = () => {
                                         <img 
                                             src={preview} 
                                             alt="Preview" 
-                                            style={{ width: "100%", height: "100%", objectFit: "cover" }} 
+                                            style={{
+                                                width: "100%",
+                                                height: "100%",
+                                                objectFit: "contain",
+                                            }}
                                         />
                                     ) : (
                                         <span style={{ fontSize: "50px", color: "#ccc" }}>+</span>

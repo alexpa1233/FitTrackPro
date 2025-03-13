@@ -56,6 +56,19 @@ class WorkoutExerciseController extends Controller
         ]);
     }
 
+    public function getWorkoutExercisesByWorkoutId($workoutId)
+    {
+        $workoutExercises = WorkoutExercise::with('exercise')->where('workout_id', $workoutId)
+            ->get();
+        return response([
+            'status' => 'success',
+            'data'   => $workoutExercises,
+            'code'   => 200
+        ]);
+    }
+
+
+
     /**
      * Update the specified resource in storage.
      */

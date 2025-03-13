@@ -98,8 +98,10 @@ const TypeAll = () => {
 
         if (confirm.isConfirmed) {
             try {
+                
                 const response = await Config.deleteType(id);
-                if (response.data.code === 200) {
+                
+                if (response.data.code === 204) {
                     Swal.fire("Deleted!", "The type has been deleted.", "success");
                     getTypeAll();
                 } else {

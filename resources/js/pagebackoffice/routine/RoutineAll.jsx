@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from "../Sidebar";
 import Config from "../../Config";
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { getUser } from '../../pageauth/AuthUser';
 
 function RoutineAll() {
   const [routines, setRoutines] = useState([]);
@@ -36,26 +38,34 @@ function RoutineAll() {
     });
 
     if (name) {
+      const data = {
+          name:name,
+          user_id:getUser().id
+      }
       try {
-        const response = await Config.createRoutine(name);
+        const response = await Config.createRoutines(data);
         if (response.data.code === 201) {
           const routineId= response.data.data.id;
           const data = {
             name: 'workout1',
-            routineId: routineId,
+            routine_id: routineId,
           }
           const response2 = await Config.createWorkout(data);
           if(response2.data.code === 201){
-            navigate(`backoffice/routine/${routineId}`);
+            navigate(`${routineId}`);
           }else{
             Swal.fire("Error", "Failed to create workout", "error");
+           
           }
           
         } else {
           Swal.fire("Error", "Failed to create routine", "error");
+         
         }
       } catch (error) {
+        console.error(error);
         Swal.fire("Error", "Server error", "error");
+       
       }
     }
   }
@@ -72,7 +82,8 @@ function RoutineAll() {
     if (confirm.isConfirmed) {
       try {
         const response = await Config.deleteRoutine(id);
-        if (response.data.code === 200) {
+
+        if (response.data.code === 204) {
           Swal.fire("Deleted!", "The routine has been deleted.", "success");
           fetchRoutines();
         } else {
@@ -109,7 +120,7 @@ function RoutineAll() {
                       <td>{routine.id}</td>
                       <td>{routine.name}</td>
                       <td>
-                        <button className="btn btn-primary me-2" onClick={() => navigate(`backoffice/routine/${routine.id}`)}>Edit</button>
+                        <button className="btn btn-primary me-2" onClick={() => navigate(`${routine.id}`)}>Edit</button>
                         <button className="btn btn-danger" onClick={() => handleDeleteRoutine(routine.id)}>Delete</button>
                       </td>
                     </tr>

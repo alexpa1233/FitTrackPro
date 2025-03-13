@@ -59,7 +59,7 @@ Route::prefix('v1')->group(function(){
         Route::get('/routines/default', [RoutineController::class, 'defaultRoutine']);
         Route::get('/routines/user/{userId}', [RoutineController::class, 'getRoutinesByUserId']);
         Route::get('/routines/count', [RoutineController::class, 'countRoutines']);
-        Route::post('/routines/{routineId}', [RoutineController::class, 'update']);
+        Route::post('/routines/{routine}', [RoutineController::class, 'update']);
         Route::apiResource('/routines', RoutineController::class)->except('update');
 
         //RoutineActive
@@ -71,11 +71,13 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('/types', TypeController::class);
 
         //Workout
-        Route::get('/workouts/routine/{routineId}', [ExerciseController::class, 'getWorkoutByRoutineId']);
+        Route::get('/workouts/routine/{routineId}', [WorkoutController::class, 'getWorkoutByRoutineId']);
         Route::apiResource('/workouts', WorkoutController::class);
 
         //Workout-exercise
+        Route::get('/workout-exercises/workout/{workoutId}',[WorkoutExerciseController::class, 'getWorkoutExercisesByWorkoutId']);
         Route::apiResource('/workout-exercises', WorkoutExerciseController::class);
+
 
         //Activity
         Route::get('/month-activity', [LoginLogController::class, 'getMonthlyLoginActivity']);

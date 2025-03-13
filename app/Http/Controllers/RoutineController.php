@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Routine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class RoutineController extends Controller
 {
@@ -105,12 +107,44 @@ class RoutineController extends Controller
      */
     public function update(Request $request, Routine $routine)
     {
+        Log::alert($routine);
         $request->validate([
-            'name' => 'string',
-            'description' => 'string'
+            'name' => 'string|max:255',
+            'description' => 'nullable|string',
+            'user_id' => 'integer|exists:users,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $routine->update($request->all());
+
+    
+
+        if ($request->has('name')) {
+            $routine->name = $request->name;
+        }
+        if ($request->has('description')) {
+            $routine->description = $request->description;
+        }
+        if (!$routine->user_id) {
+        
+            $routine->user_id = $request->user_id; 
+        }
+
+        if ($request->hasFile('image')) {
+            if ($routine->image) {
+                Storage::delete(str_replace('/storage', 'public', $routine->image));
+            }
+            //Modificar nombre de la imagen a id del routine.
+            $imageExtension = $request->file('image')->getClientOriginalExtension();
+            $newImageName = 'routine_' . $routine->id . '.' . $imageExtension;
+            //Subir imagen
+            $imagePath = $request->file('image')->storeAs('public/routine_images', $newImageName);
+            $imageUrl = Storage::url($imagePath);
+            $routine->image = $imageUrl;
+        }
+        
+
+
+        $routine->save();
 
         return response([
             'status' => 'success',

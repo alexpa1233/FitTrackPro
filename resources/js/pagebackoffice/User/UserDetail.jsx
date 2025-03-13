@@ -19,7 +19,6 @@ function UserDetail() {
     const getUser = async () => {
         try {
             const response = await Config.getUserById(id);
-            console.log(response.data.data);
             setUser(response.data.data);
         } catch (error) {
             console.log(error);

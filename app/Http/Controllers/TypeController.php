@@ -83,7 +83,8 @@ class TypeController extends Controller
 
         return response([
             'status' => 'success',
-            'code' => 200
+            'message' => 'Routine deleted successfully',
+            'code' => 204
         ]);
     }
 }

@@ -92,7 +92,7 @@ class WorkoutController extends Controller
         $workout->delete();
         return response([
             'status' => 'success',
-            'data' => null,
+            'message' => 'Workout deleted successfully',
             'code' => 204
         ]);
     }
