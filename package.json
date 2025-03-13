@@ -14,12 +14,12 @@
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "sass": "^1.56.1",
-        "vite": "^5.0.0"
+        "vite": "^6.2.1"
     },
     "dependencies": {
         "react-icons": "^5.5.0",
         "react-router-dom": "^6.29.0",
         "recharts": "^2.15.1",
-        "sweetalert2": "^11.17.2"
+        "sweetalert2": "^11.6.13"
     }
 }
