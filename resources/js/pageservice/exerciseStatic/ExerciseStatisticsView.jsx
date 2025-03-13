@@ -253,3 +253,4 @@ function ExerciseStaticsView() {
 }
 
 export default ExerciseStaticsView;
+
