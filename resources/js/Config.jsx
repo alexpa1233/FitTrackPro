@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "./pageauth/AuthUser";
 
-const baseUrl = 'http://localhost:8000/api/v1';
+const baseUrl = 'https://fittrackpro.online/api/v1';
 
 
 

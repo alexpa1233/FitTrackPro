@@ -97,7 +97,7 @@ function ExerciseStaticsView() {
       let data = {
         user_id: user.id,
         workout_exercise_id: workoutExercise.id,
-        date: new Date()
+        date: new Date().toISOString()
       };
   
       if (selectedType === 'reps_weight') {
