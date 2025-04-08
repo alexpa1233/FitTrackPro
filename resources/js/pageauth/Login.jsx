@@ -20,7 +20,7 @@ const Login = () => {
 
   const submitLogin = async (e) => {
     e.preventDefault();
-    setErrorMsg(""); // Clear any previous error message
+    setErrorMsg(""); 
 
     await axios.get('/sanctum/csrf-cookie')
       .then(() => {
@@ -33,7 +33,6 @@ const Login = () => {
                 data.user.roles[0].name
               );
             } else {
-              // Update error message if login fails
               setErrorMsg(data.message || "Invalid credentials. Please try again.");
             }
           })
@@ -57,7 +56,6 @@ const Login = () => {
             <div className="card shadow-lg rounded-3">
               <div className="card-body p-4">
                 <h1 className="text-center fw-bolder mb-4">Sign In</h1>
-                {/* Display error message if present */}
                 {errorMsg && (
                   <div className="alert alert-danger" role="alert">
                     {errorMsg}

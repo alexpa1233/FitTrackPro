@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Config from '../Config';
+
 import { getUser } from '../pageauth/AuthUser';
+import Config from '../Config';
 
 const Service = () => {
   const navigate = useNavigate();

@@ -8,14 +8,14 @@ function ExerciseStaticsView() {
   const { workoutId } = useParams();
   const navigate = useNavigate();
   
-  // Almacenamos todos los workoutexercises asociados al workoutId
+
   const [workoutExercises, setWorkoutExercises] = useState([]);
-  // Índice del ejercicio actual en el array
+
   const [currentIndex, setCurrentIndex] = useState(0);
-  // Ejercicio actual
+
   const [workoutExercise, setWorkoutExercise] = useState(null);
   
-  // Número de series (sets) siempre limitado a 5
+
   const [selectedSetCount, setSelectedSetCount] = useState(5);
   const [selectedType, setSelectedType] = useState('');
   const [repsWeightValues, setRepsWeightValues] = useState(
@@ -88,14 +88,18 @@ function ExerciseStaticsView() {
     e.preventDefault();
     const user = getUser();
     if (!user || !workoutExercise) return;
+    
+
+    //
 
     // Enviar un registro por cada set (hasta selectedSetCount, máximo 5)
     for (let i = 0; i < selectedSetCount; i++) {
       let data = {
         user_id: user.id,
         workout_exercise_id: workoutExercise.id,
+        date: new Date()
       };
-
+  
       if (selectedType === 'reps_weight') {
         data.reps = repsWeightValues[i].reps;
         data.weight = repsWeightValues[i].weight;
@@ -104,14 +108,17 @@ function ExerciseStaticsView() {
       } else if (selectedType === 'distance') {
         data.distance = distanceValues[i];
       }
-
+  
       try {
+        console.log(data);
         await Config.createExerciseStatistic(data);
       } catch (error) {
         console.error(`Error guardando set ${i + 1}:`, error);
+        Swal.fire("Error", `Error guardando set ${i + 1}: ${error.message || error}`, "error");
+        return; // Se detiene la ejecución en caso de error
       }
     }
-
+  
     // Si hay más ejercicios, pasamos al siguiente; de lo contrario, redirigimos a /service
     if (currentIndex < workoutExercises.length - 1) {
       const nextIndex = currentIndex + 1;
@@ -131,6 +138,7 @@ function ExerciseStaticsView() {
         });
     }
   };
+  
 
   if (!workoutExercise) {
     return <div>Cargando datos del ejercicio...</div>;

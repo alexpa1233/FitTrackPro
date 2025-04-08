@@ -63,7 +63,6 @@ class ExerciseStatisticController extends Controller
         $request->validate([
             'user_id' => 'required|integer|exists:users,id',
             'workout_exercise_id' => 'required|integer|exists:workout_exercises,id',
-            'sets' => 'nullable|integer',
             'reps' => 'nullable|integer',
             'weight' => 'nullable|numeric',
             'duration' => 'nullable|integer',
@@ -73,14 +72,13 @@ class ExerciseStatisticController extends Controller
         $exerciseStatistic = ExerciseStatistic::create([
             'user_id' => $request->user()->id,
             'workout_exercise_id' => $request->workout_exercise_id,
-            'sets' => $request->sets,
             'reps' => $request->reps,
             'weight' => $request->weight,
             'duration' => $request->duration,
             'date' => $request->date,
         ]);
 
-        return response()->json([
+        return response([
             'status' => 'success',
             'data' => $exerciseStatistic,
             'code' => 201

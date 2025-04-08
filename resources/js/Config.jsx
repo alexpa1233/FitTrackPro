@@ -208,31 +208,31 @@ export default {
     }),
 
     //exercise-statics
-    getExerciseStatisticsAll: () => axios.get(`${baseUrl}/api/v1/exercise-statistics`, {
+    getExerciseStatisticsAll: () => axios.get(`${baseUrl}/exercise-statistics`, {
         headers: getAuthHeader()
     }),
 
-    createExerciseStatistic: (data) => axios.post(`${baseUrl}/api/v1/exercise-statistics`, data, {
+    createExerciseStatistic: (data) => axios.post(`${baseUrl}/exercise-statistics`, data, {
         headers: getAuthHeader()
     }),
 
-    getExerciseStatisticByExercise: (exerciseId) => axios.get(`${baseUrl}/api/v1/exercise-statistics/exercise/${exerciseId}`, {
+    getExerciseStatisticByExercise: (exerciseId) => axios.get(`${baseUrl}/exercise-statistics/exercise/${exerciseId}`, {
         headers: getAuthHeader()
     }),
 
-    getExerciseStatisticByWorkoutExercise: (workoutExerciseId) => axios.get(`${baseUrl}/api/v1/exercise-statistics/workout/${workoutExerciseId}`, {
+    getExerciseStatisticByWorkoutExercise: (workoutExerciseId) => axios.get(`${baseUrl}/exercise-statistics/workout/${workoutExerciseId}`, {
         headers: getAuthHeader()
     }),
 
-    getExerciseStatistic: (exerciseStatisticId) => axios.get(`${baseUrl}/api/v1/exercise-statistics/${exerciseStatisticId}`, {
+    getExerciseStatistic: (exerciseStatisticId) => axios.get(`${baseUrl}/exercise-statistics/${exerciseStatisticId}`, {
         headers: getAuthHeader()
     }),
 
-    updateExerciseStatistic: (exerciseStatisticId, data) => axios.put(`${baseUrl}/api/v1/exercise-statistics/${exerciseStatisticId}`, data, {
+    updateExerciseStatistic: (exerciseStatisticId, data) => axios.put(`${baseUrl}/exercise-statistics/${exerciseStatisticId}`, data, {
         headers: getAuthHeader()
     }),
 
-    deleteExerciseStatistic: (exerciseStatisticId) => axios.delete(`${baseUrl}/api/v1/exercise-statistics/${exerciseStatisticId}`, {
+    deleteExerciseStatistic: (exerciseStatisticId) => axios.delete(`${baseUrl}/exercise-statistics/${exerciseStatisticId}`, {
         headers: getAuthHeader()
     }),
 };
