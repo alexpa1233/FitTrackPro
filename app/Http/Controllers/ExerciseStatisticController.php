@@ -66,7 +66,6 @@ class ExerciseStatisticController extends Controller
             'reps' => 'nullable|integer',
             'weight' => 'nullable|numeric',
             'duration' => 'nullable|integer',
-            'date' => 'required|date',
         ]);
 
         $exerciseStatistic = ExerciseStatistic::create([
@@ -75,7 +74,6 @@ class ExerciseStatisticController extends Controller
             'reps' => $request->reps,
             'weight' => $request->weight,
             'duration' => $request->duration,
-            'date' => $request->date,
         ]);
 
         return response([
